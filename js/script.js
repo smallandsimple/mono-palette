@@ -3,16 +3,18 @@
 let activeHue = 0
 let activeSaturation = 0
 
-// Fulfills Requirement
 function getRandInt(max = 100, min = 0) {
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-// Fulfills Requirement
 async function fetchPresets() {
-    const response = await fetch('../json/presets.json')
-    const json = await response.json()
-    return json.colors
+    try {
+        const response = await fetch('/alan/hsl/json/presets.json')
+        const json = await response.json()
+        return json.colors
+    } catch {
+        return [[0, 0], [0, 80], [30, 80], [60, 80], [90, 80], [120, 80], [150, 80], [180, 80], [210, 80], [240, 80], [270, 80], [300, 80], [330, 80]]
+    }
 }
 
 function renderPresets(presets) {
@@ -30,7 +32,6 @@ function renderPresets(presets) {
     }
 }
 
-// Fulfills Requirement
 function renderColorBlocks() {
     const colorBlockContainer = document.querySelector('.color-block-container')
     const colorBlocks = []
@@ -45,7 +46,6 @@ function renderColorBlocks() {
     colorBlockContainer.append(...colorBlocks)
 }
 
-// Fulfills Requirement
 function generateRandomPalette() {
     const h = activeHue = getRandInt(359, 0)
     const s = activeSaturation = getRandInt()
@@ -53,8 +53,6 @@ function generateRandomPalette() {
     updateBackgroundColor()
     updateSelectedFormula()
 }
-
-// --------------------------------------------------------------------------------
 
 function setHueAndSaturation(h, s) {
     activeHue = h
@@ -68,14 +66,32 @@ function updateBackgroundColor(l = 50) {
     updateSelectedFormula(l)
 }
 
+const rgbToHex = function (r, g, b) {
+    return [r, g, b].map(n => {
+        const hex = n.toString(16).toUpperCase()
+        return n > 15 ? hex : `0${hex}`
+    }).join('')
+}
+
 function updateSelectedFormula(l = 50) {
-    const selectedFormula = document.querySelector('.hsl-formula')
-    selectedFormula.value = `hsl(${activeHue}, ${activeSaturation}%, ${l}%)`
+    const hslFormula = document.querySelector('.hsl-formula')
+    const rgbFormula = document.querySelector('.rgb-formula')
+    const hexFormula = document.querySelector('.hex-formula')
+    const rgb = window.getComputedStyle(document.body).getPropertyValue('background-color').replace(/[rgb\(\),]/g,'').split(' ').map(n => +n)
+    const hex = rgbToHex(...rgb)
+
+    hslFormula.value = `hsl(${activeHue}, ${activeSaturation}%, ${l}%)`
+    rgbFormula.value = `rgb(${rgb.join(', ')})`
+    hexFormula.value = `#${hex}`
 
     if (l < 50) {
-        selectedFormula.classList.add('text-L90')
+        hslFormula.classList.add('text-L90')
+        rgbFormula.classList.add('text-L90')
+        hexFormula.classList.add('text-L90')
     } else {
-        selectedFormula.classList.remove('text-L90')
+        hslFormula.classList.remove('text-L90')
+        rgbFormula.classList.remove('text-L90')
+        hexFormula.classList.remove('text-L90')
     }
 }
 

@@ -102,20 +102,28 @@ main {
     position: relative;
 }
 
-.hsl-formula {
+.formulas {
+    display: flex;
+    flex-direction: column;
+    /* margin-top: -.5rem; */
+    margin-bottom: -10rem;
+}
+
+.formulas input {
     border: 0;
     font-size: 2.8rem;
     text-align: center;
     background: none;
     color: var(--color-L10);
+    margin: .5rem;
 }
 
-.hsl-formula:focus {
+.formulas input:focus {
     outline: 0;
 }
 
-.text-L90 {
-    color: var(--color-L90)
+.formulas .text-L90 {
+    color: var(--color-L90);
 }
 
 .color-block-container {

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/styles.css">
 
     <!-- Scripts -->
-    <script defer src="js/script.js"></script>
+    <script defer type="module" src="js/script.js"></script>
 </head>
 
 <body>
@@ -23,8 +23,12 @@
     </header>
     <main>
         <ul class="presets-list">
-        </ul>    
-        <input type="text" class="hsl-formula" placeholder="hsl(0, 0%, 0%)" spellcheck="false" readonly>
+        </ul>
+        <div class="formulas">
+            <input type="text" class="hsl-formula" placeholder="hsl(0, 0%, 0%)" spellcheck="false" readonly>
+            <input type="text" class="rgb-formula" placeholder="rgb(0, 0, 0)" spellcheck="false" readonly>
+            <input type="text" class="hex-formula" placeholder="#000000" spellcheck="false" readonly>
+        </div>    
         <div class="color-block-container">
         </div>
         <button class="btn-generate">Generate</button>
